@@ -4,7 +4,7 @@
 @with_kw struct AdEx_Parameters
     g_L::Float64 = 30nS
     E_L::Float64 = -70.6mV
-    Δ_T::Float64 = 24mV
+    Δ_T::Float64 = 2mV
     𝜗_rh::Float64 = -45.4mV
     C::Float64 = 281pF
     τ_w::Float64 = 144mS

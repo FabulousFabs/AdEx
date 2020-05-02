@@ -58,7 +58,7 @@ function AdEx_Model_Run(m::AdEx_Model, T::Tuple{Float64, Float64}, I::Function)
             p[10] = size(solution_u2)[1]; # reset t_f
 
             # re-solve ODE
-            reinit!(integrator, u1, t0=p[7]);
+            reinit!(integrator, u1; t0=p[10]);
             sol1 = solve!(integrator);
 
             # write histories
