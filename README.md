@@ -1,1 +1,9 @@
-nothing is working.
+# @Alessio
+i rewrote this for readability, because, let's face it, the first one i made was a complete mess (in a single file, even). the main part is AdEx/model.jl (equations taken from Brette & Gerstner, 2005) or AdEx-NeuronalDynamics/model.jl (equations taken from the neuronal dynamics book).
+
+i do have a few questions though, because...some of this i still don't fully understand. the main ones are: how do i really determine all of the parameters? these parameters i'm using here are all taken from various papers but, as is evident from my results, I think, that doesn't seem to be working so well ( for reference, here's a plot of the models right now: https://imgur.com/a/jAQzpKy ). i know how to compute 𝜗_rh but that's about it -- how would I arrive at, for example, Δ_T in both models or R in the neuronal dynamics model? for the latter, i just set it to a constant 10Ω, but clearly that doesn't really make any sense..
+
+
+secondly...if i wanna move on to simulating several neurons at once (and their interactions) then i really wanna parallelise the computations because it'll be a nightmare to deal with it if i don't (i think). question is, how do i manage that? it seems to me like i'll either have to use one ODE that processes all neurons (in which case, i couldn't parallelise that) or i'll stop using ordinary differential equations and approximate a solution manually (in which case i could easily do collective time steps in across parallelised processing) but both don't exactly seem ideal to me. no idea how to go about this - maybe we can talk about that too.
+
+thanks a lot man. <3
