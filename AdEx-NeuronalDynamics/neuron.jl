@@ -19,16 +19,3 @@ end
     u::Float64 = p.u_rest
     w::Float64 = 0.1nA
 end
-
-#=
-const neuron_p_high = [
-    -70.6mV,      # u_rest
-    24,         # Δ_T
-    -45.4,      # 𝜗_rh
-    1,          # R
-    144,        # τ_w
-    -1,         # t_f
-    4,          # a
-    0.0805,     # b
-    20.0       # Θ_reset
-];=#
