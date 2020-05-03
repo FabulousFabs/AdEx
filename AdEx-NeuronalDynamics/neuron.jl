@@ -17,5 +17,5 @@ end
     α::Float64 = 4nS
     β::Float64 = 0.0805nA
     u::Float64 = p.u_rest
-    w::Float64 = 0.1nA
+    w::Float64 = 0nA
 end

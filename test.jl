@@ -1,6 +1,6 @@
 # main file for testing our AdEx implementation
 
-include("AdEx-NeuronalDynamics/model.jl");
+include("AdEx/model.jl");
 
 # injection functions
 I_boxcar(t) = (t >= 80ms) && (t <= 120ms) ? 80mV : 0;
