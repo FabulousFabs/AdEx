@@ -1,5 +1,7 @@
 # AdEx unit declarations
 
+const AdEx_Float = Float64;
+
 const metre = 1e2;
 const cm = metre / 1e2;
 const mm = metre / 1e3;
@@ -27,3 +29,10 @@ const mS = siemens / 1e3;
 const nS = siemens / 1e9;
 
 const Ω = voltage / ampere;
+
+const litre = 1e3;
+const mL = litre / 1e3;
+
+const mol = 6.02214076e23;
+const molar = mol / litre;
+const mM = molar / 1e3;
