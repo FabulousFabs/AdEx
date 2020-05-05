@@ -11,7 +11,7 @@ make any sense, because that'll make inhibitory synapses excitatory and vice
 versa. swapped the V - s.E_syn terms around in the current one for appropriate
 results.
 =#
-AdEx_Synapse_I(s::AdEx_Synapse, t, V) = s.g * (s.E_syn + (V * 10^3));
+AdEx_Synapse_I(s::AdEx_Synapse, t, V) = s.g * ((s.E_syn + V) * 1e3);
 
 ## NMDA synapse
 @with_kw mutable struct AdEx_Synapse_NMDA <: AdEx_Synapse
