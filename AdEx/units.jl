@@ -26,7 +26,9 @@ const pF = farad / 1e12;
 
 const siemens = 1e3;
 const mS = siemens / 1e3;
+const uS = siemens / 1e6;
 const nS = siemens / 1e9;
+const pS = siemens / 1e12;
 
 const Ω = voltage / ampere;
 
