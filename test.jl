@@ -28,12 +28,14 @@ model = AdEx_Model_Create(network_draft);
 # setup simulation
 T = (0ms, 2000ms);
 I = [
-    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
-    (2, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV))
+    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2.4mV)),
+    (2, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2.4mV))
 ];
 
 # run simulation
 spikes = AdEx_Model_Simulate(model, T, I; dt=1ms);
 
 # plot spike trains
+display(AdEx_Model_Plot_Synapses(model));
+display(AdEx_Model_Plot_Neurons(model));
 display(AdEx_Plot_Spikes(spikes, T; dt=1ms));
