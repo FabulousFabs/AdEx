@@ -1,9 +1,8 @@
-# @Alessio
-i rewrote this for readability, because, let's face it, the first one i made was a complete mess (in a single file, even). the main part is AdEx/model.jl (equations taken from Brette & Gerstner, 2005) or AdEx-NeuronalDynamics/model.jl (equations taken from the neuronal dynamics book).
+# Spiking neural network implementation* with AdEx neurons**
+@TODO: Test this by replicating the results of Pan et al.***
 
-i do have a few questions though, because...some of this i still don't fully understand. the main ones are: how do i really determine all of the parameters? these parameters i'm using here are all taken from various papers but, as is evident from my results, I think, that doesn't seem to be working so well ( for reference, here's a plot of the models right now: https://imgur.com/a/jAQzpKy ). i know how to compute 𝜗_rh but that's about it -- how would I arrive at, for example, Δ_T in both models or R in the neuronal dynamics model? for the latter, i just set it to a constant 10Ω, but clearly that doesn't really make any sense.. i'm also not entirely certain how far with this i should go - like, do i add noise, too?; do i add compartments, too?; etc.
+* Gerstner, W., Kistler, W.M., Naud, R., & Paninski, L. (2014). Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition. New York: CUP.
 
+** Brette, R., & Gerstner, W. (2005). Adaptive exponential integrate-and-fire model as an effective description of neuronal activity. Journal of Neurophysiology, 94, 3637-3642. DOI: http://dx.doi.org/10.1152/jn.00686.2005.
 
-secondly...if i wanna move on to simulating several neurons at once (and their interactions) then i really wanna parallelise the computations because it'll be a nightmare to deal with it if i don't (i think). question is, how do i manage that? it seems to me like i'll either have to use one ODE that processes all neurons (in which case, i couldn't parallelise that) or i'll stop using ordinary differential equations and approximate a solution manually (in which case i could easily do collective time steps in across parallelised processing) but both don't exactly seem ideal to me. no idea how to go about this - maybe we can talk about that too.
-
-thanks a lot man. <3
+*** Pan, Z., Chua, Y., Wu, J., Zhang, M., Li, H., & Ambikairajah, E. (2020). Motivated auditory neural encoding and decoding algorithm for spiking neural networks. Frontiers in Neuroscience: Neuromorphic Engineering, 13, 1420. DOI: http://dx.doi.org/10.3389/fnins.2019.01420
