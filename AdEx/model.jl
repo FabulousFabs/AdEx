@@ -1,4 +1,4 @@
-using Parameters, DifferentialEquations, Sundials, Plots
+using Parameters, Plots
 
 include("units.jl");
 include("funcs.jl");
@@ -37,26 +37,10 @@ function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
     model;
 end
 
-function AdEx_ODE(du, u, p, t)
-    p.V, p.w = u;
-
-    if (p.V >= p.Θ_reset)
-        terminate!(integrator);
-    end
-
-    du[1] = AdEx_Neuron_dVdt(p, t);
-    du[2] = AdEx_Neuron_dwdt(p, t);
-end
-
-function AdEx_ODE_S(du, u, p, t)
-    g_t = u;
-    V, t_f, s = p;
-
-    du[1] = AdEx_Synapse_g(s, t, t_f, V);
-end
-
-function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw)
+function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw; dt=0.1ms)
+    ## setup injection currents & spike bin
     I_inj = map(x -> zeros(floor(Int, T[2]+1)), 1:size(model.Neurons)[1]);
+    spike_bin::Array{Array{AdEx_Float}} = AdEx_Float[];
 
     for t in I_inj_kw
         I_inj[t[1]] = t[2];
@@ -64,63 +48,88 @@ function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}
 
     for i = 1:size(model.Neurons)[1]
         model.Neurons[i].I = I_inj[i];
+        push!(spike_bin, AdEx_Float[]);
     end
 
-    solutions = [];
+    ## integration loop
+    for t = T[1]:dt:(T[2]-dt)
+        # neuron loop
+        for i = 1:size(model.Neurons)[1]
+            # neuron, using Heun's method
+            model.Neurons[i].V = model.Neurons[i].V + (dt / 2) * (AdEx_Neuron_dVdt(model.Neurons[i], t) + AdEx_Neuron_dVdt(model.Neurons[i], (t + dt), (model.Neurons[i].V + dt * AdEx_Neuron_dVdt(model.Neurons[i], t))));
+            if (AdEx_Neuron_Firing_Condition(model.Neurons[i], t))
+                AdEx_Neuron_Firing_Affect(model.Neurons[i], t);
+                spike_bin[i] = [spike_bin[i]; t];
+            end
+            model.Neurons[i].w = model.Neurons[i].w + (dt / 2) * (AdEx_Neuron_dwdt(model.Neurons[i], t) + AdEx_Neuron_dwdt(model.Neurons[i], (t + dt), (model.Neurons[i].w + dt * AdEx_Neuron_dwdt(model.Neurons[i], t))));
 
-    for i = 1:size(model.Neurons)[1]
-        prob = ODEProblem(AdEx_ODE, [model.Neurons[i].E_L, model.Neurons[i].w], T, model.Neurons[i]);
-        global integrator = init(prob, Euler();
-                                                saveat=1ms,
-                                                dt=1ms,
-                                                dtmin=1ms,
-                                                dtmax=1ms,
-                                                force_dtmin=true);
-        sol = solve!(integrator);
-
-        solution_u1 = sol[1,:];
-        solution_u2 = sol[2,:];
-
-        while (size(solution_u1)[1] < T[2])
             # synapses
-            for j = 1:size(model.Neurons[i].Synapses)[1]
-                s_prob = ODEProblem(AdEx_ODE_S, [0mV], T, [model.Neurons[i].V, size(solution_u2)[1]ms, model.Neurons[i].Synapses[j]]);
-                s_integrator = init(prob, Euler();
-                                                    saveat=1ms,
-                                                    dt=1ms,
-                                                    dtmin=1ms,
-                                                    dtmax=1ms,
-                                                    force_dtmin=true);
-                s_sol = solve!(s_integrator);
-                println(s_sol);
-                #println(AdEx_Synapse_g(model.Neurons[i].Synapses[j], size(solution_u2)[1]ms, size(solution_u2)[1]ms, model.Neurons[i].V));
+            if model.Neurons[i].t_f > -1
+                for j = 1:size(model.Neurons[i].Synapses)[1]
+                    model.Neurons[i].Synapses[j].g = AdEx_Synapse_g(model.Neurons[i].Synapses[j], t, model.Neurons[i].t_f, model.Neurons[i].Θ_reset);
+                    model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
+                    if model.Neurons[i].Synapses[j].PostSyn > 0
+                        model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+                    end
+
+                    # synapse histories
+                    model.Neurons[i].Synapses[j].g_history = [model.Neurons[i].Synapses[j].g_history; model.Neurons[i].Synapses[j].g];
+                    model.Neurons[i].Synapses[j].I_history = [model.Neurons[i].Synapses[j].I_history; model.Neurons[i].Synapses[j].I];
+                end
             end
 
-            # prepare u & p
-            model.Neurons[i].w += model.Neurons[i].β;
-            u1 = [model.Neurons[i].E_L, model.Neurons[i].w]; # reset u
-            model.Neurons[i].t_f = size(solution_u2)[1]ms; # reset t_f
-
-            # re-solve ODE
-            reinit!(integrator, u1; t0=model.Neurons[i].t_f);
-            sol1 = solve!(integrator);
-
-            # write histories
-            solution_u1 = [solution_u1; sol1[1,:]];
-            solution_u2 = [solution_u2; sol1[2,:]];
+            # neuron histories
+            model.Neurons[i].V_history = [model.Neurons[i].V_history; model.Neurons[i].V];
+            model.Neurons[i].w_history = [model.Neurons[i].w_history; model.Neurons[i].w];
         end
-
-        push!(solutions, [solution_u1, solution_u2]);
     end
 
-    return solutions;
+    spike_bin;
 end
 
-function AdEx_Model_Plot(r, c)
-    s = size(r)[1];
-    display(plot(r, layout=(s, c), lw=1, legend=false, ylims = (-90, 20)));
+function AdEx_Plot_Spikes(s, T; dt=0.1ms)
+    labels = Array{String}(undef, 1, 0)
+    X::Array{Array{AdEx_Float}} = AdEx_Float[];
+    Y = 1:size(s)[1];
+    y = 0;
+
+    for i in Y
+        y += 1;
+        labels = [labels    "Neuron " * string(y) * ""];
+        push!(X, collect(T[1]:dt:T[2]) .* 0);
+
+        for j = 1:size(s[i])[1]
+            X[i][floor(Int, s[i][j])] = i;
+        end
+    end
+
+    p = plot(X, seriestype=:scatter, ylims = (0.5, floor(Int, y) + 0.5), yaxis=false, grid=:x, label=labels, legend=:best, title="Spike trains");
 end
 
-function AdEx_Model_Plot(r)
-    AdEx_Model_Plot(r, 2);
+function AdEx_Model_Plot_Neurons(model::AdEx_Model)
+    plots = [];
+    labels = Array{String}(undef, 1, 0);
+
+    for i = 1:size(model.Neurons)[1]
+        l = ["N" * string(i) * ":I(t)"  "N" * string(i) * ":V(t)"   "N" * string(i) * ":w(t)"];
+        labels = [labels    l];
+        push!(plots, [model.Neurons[i].I, model.Neurons[i].V_history, model.Neurons[i].w_history]);
+    end
+
+    p = plot(plots, layout=(size(plots)[1], 3), lw=1, label=labels, legend=:best);
+end
+
+function AdEx_Model_Plot_Synapses(model::AdEx_Model)
+    plots = [];
+    labels = Array{String}(undef, 1, 0);
+
+    for i = 1:size(model.Neurons)[1]
+        for j = 1:size(model.Neurons[i].Synapses)[1]
+            l = ["I(" * string(i) * "_" * string(j) * ", t)"    "g(" * string(i) * "_" * string(j) * ", t)"];
+            labels = [labels    l];
+            push!(plots, [model.Neurons[i].Synapses[j].I_history, model.Neurons[i].Synapses[j].g_history]);
+        end
+    end
+
+    p = plot(plots, layout=(size(plots)[1], 2), lw=1, label=labels, legend=:best);
 end
