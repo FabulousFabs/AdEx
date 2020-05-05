@@ -96,14 +96,14 @@ function AdEx_Plot_Spikes(s, T; dt=0.1ms)
     for i in Y
         y += 1;
         labels = [labels    "Neuron " * string(y) * ""];
-        push!(X, collect(T[1]:dt:T[2]) .* 0);
+        push!(X, collect(T[1]:dt:(T[2] + T[2] / 4)) .* 0);
 
         for j = 1:size(s[i])[1]
             X[i][floor(Int, s[i][j])] = i;
         end
     end
 
-    p = plot(X, seriestype=:scatter, ylims = (0.5, floor(Int, y) + 0.5), yaxis=false, grid=:x, label=labels, legend=:best, title="Spike trains");
+    p = plot(X, seriestype=:scatter, markershape=:vline, ylims = (0.5, floor(Int, y) + 0.5), yaxis=(:flip, false), grid=:x, label=labels, legend=:best, title="Spike trains");
 end
 
 function AdEx_Model_Plot_Neurons(model::AdEx_Model)
