@@ -88,6 +88,8 @@ function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}
                                 model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
                                 model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
                             end
+                        else
+                            model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
                         end
                     else
                         model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
