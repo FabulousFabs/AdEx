@@ -1,7 +1,13 @@
 # Spiking neural network implementation<sup>[[1]](#references)</sup> with AdEx neurons<sup>[[2]](#references)</sup>
 
 ## To-do:
-* [ ] Add more compartments such that we can truthfully model A1 circuits of SST-expressing GABAergic interneurons firing at dendrites of excitatory neurons and PV-expressing GABAergic interneurons firing at somas of excitatory neurons, as per Park & Geffen<sup>[[3]](#references)</sup>
+* [ ] Add different neuron markers for excitatory, SST-expressing and PV-expressing neurons such that we can truthfully model A1 circuits of excitatory neurons and SST-expressing GABAergic INs firing at dendrites and PV-expressing GABAergic INs firing at somas of excitatory neurons, as per Park & Geffen<sup>[[3, 6]](#references)</sup>
+	* This could be achieved by implementing a non-linear cable equation<sup>[[1]](#references)</sup>:
+		```math
+		$\displaystyle\frac{\partial}{\partial t}\,u(t,x)-\frac{\partial^{2}}{\partial x%^{2}}\,u(t,x)+u(t,x)+g_{\text{syn}}(t,x)[u(t,x)-E_{\text{syn}}] = 0$
+		$\displaystyle\frac{\partial}{\partial t}g_{\text{syn}}(t,x)-\tau_{\text{syn}}^%{-1}\,g_{\text{syn}}(t,x) = S(t,x)$
+		```
+	* This could then be used to model decay of input currents differently between excitatory/SST/PV (inter-)neurons.
 
 * [ ] Test this by replicating the results of Pan et al.<sup>[[4]](#references)</sup>
 
@@ -81,3 +87,5 @@
 * [4] Pan, Z., Chua, Y., Wu, J., Zhang, M., Li, H., & Ambikairajah, E. (2020). Motivated auditory neural encoding and decoding algorithm for spiking neural networks. Frontiers in Neuroscience: Neuromorphic Engineering, 13, 1420. DOI: http://dx.doi.org/10.3389/fnins.2019.01420
 
 * [5] Numerical Methods--Heun's method. (n.d.). CalculusLab, San Joaquin Delta College. Retrieved May 5, 2020, from http://calculuslab.deltacollege.edu/ODE/7-C-2/7-C-2-h.html
+
+* [6] Tremblay, R., Lee, S., & Rudy, B. (2016). GABAergic interneurons in the neocortex: From cellular properties to circuits. Neuron, 91, 260-292. DOI: http://dx.doi.org/10.1016/j.neuron.2016.06.033
