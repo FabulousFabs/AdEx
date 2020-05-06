@@ -58,9 +58,10 @@
 		    (2, AdEx_sin(T[1]:T[2], 2mV, 0.001))
 		];
 		```
-	* ![Spike trains plots](https://i.imgur.com/97WRgjD.png)
-	* ![Neuron history plots](https://i.imgur.com/ivIvP73.png)
-	* ![Synapse history plots, left column I(t), right column g(t), rows = one synapse](https://i.imgur.com/Hqm3fm6.png)
+	* We get:
+		* Spike train plots ![](https://i.imgur.com/97WRgjD.png)
+		* Neuron history plots ![](https://i.imgur.com/ivIvP73.png)
+		* Synapse history plots, left column I(t), right column g(t), rows = one synapse ![](https://i.imgur.com/Hqm3fm6.png)
 
 ## To-do:
 * Add more compartments such that we can truthfully model A1 circuits of SST-expressing GABAergic interneurons firing at dendrites of excitatory neurons and PV-expressing GABAergic interneurons firing at somas of excitatory neurons, as per Park & Geffen [4]
