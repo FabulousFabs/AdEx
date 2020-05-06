@@ -32,9 +32,6 @@ function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
                     push!(s, nse.S[j].T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
                 end
             end
-            #for c in nse.S.C
-            #    push!(s, nse.S.T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
-            #end
             push!(model.Neurons, nse.T(Synapses=s));
         end
     end
@@ -72,9 +69,31 @@ function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}
             if model.Neurons[i].t_f > -1
                 for j = 1:size(model.Neurons[i].Synapses)[1]
                     model.Neurons[i].Synapses[j].g = AdEx_Synapse_g(model.Neurons[i].Synapses[j], t, model.Neurons[i].t_f, model.Neurons[i].Θ_reset);
-                    model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
-                    if model.Neurons[i].Synapses[j].PostSyn > 0
-                        model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+
+                    # account for differences in conductance between Exc -> SST, PV -> Exc & regular connections
+                    if (typeof(model.Neurons[1]) in [AdEx_Neuron_Excitatory, AdEx_Neuron_PV])
+                        if model.Neurons[i].Synapses[j].PostSyn > 0
+                            if ((typeof(model.Neurons[i]) == AdEx_Neuron_Excitatory) && (typeof(model.Neurons[model.Neurons[i].Synapses[j].PostSyn]) == AdEx_Neuron_SST))
+                                # Exc -> SST, using Heun's method
+                                model.Neurons[i].Synapses[j].F = model.Neurons[i].Synapses[j].F + (dt / 2) * (AdEx_Synapse_dFdt(model.Neurons[i].Synapses[j], model.Neurons[i], t) + AdEx_Synapse_dFdt(model.Neurons[i].Synapses[j], model.Neurons[i], (t + dt), (model.Neurons[i].Synapses[j].F + dt * AdEx_Synapse_dFdt(model.Neurons[i].Synapses[j], model.Neurons[i], t))));
+                                model.Neurons[i].Synapses[j].I = AdEx_Synapse_I_F(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
+                                model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+                            elseif ((typeof(model.Neurons[i]) == AdEx_Neuron_PV) && (typeof(model.Neurons[model.Neurons[i].Synapses[j].PostSyn]) == AdEx_Neuron_Excitatory))
+                                # PV -> Exc, using Heun's method
+                                model.Neurons[i].Synapses[j].D = model.Neurons[i].Synapses[j].D + (dt / 2) * (AdEx_Synapse_dDdt(model.Neurons[i].Synapses[j], model.Neurons[i], t) + AdEx_Synapse_dDdt(model.Neurons[i].Synapses[j], model.Neurons[i], (t + dt), (model.Neurons[i].Synapses[j].D + dt * AdEx_Synapse_dDdt(model.Neurons[i].Synapses[j], model.Neurons[i], t))));
+                                model.Neurons[i].Synapses[j].I = AdEx_Synapse_I_D(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
+                                model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+                            else
+                                # Fringe cases handled regularly
+                                model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
+                                model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+                            end
+                        end
+                    else
+                        model.Neurons[i].Synapses[j].I = AdEx_Synapse_I(model.Neurons[i].Synapses[j], t, model.Neurons[i].Θ_reset);
+                        if model.Neurons[i].Synapses[j].PostSyn > 0
+                            model.Neurons[model.Neurons[i].Synapses[j].PostSyn].I[floor(Int, (t + dt)) + 1] += model.Neurons[i].Synapses[j].I;
+                        end
                     end
 
                     # synapse histories

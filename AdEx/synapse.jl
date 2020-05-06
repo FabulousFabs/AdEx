@@ -2,16 +2,16 @@
 
 abstract type AdEx_Synapse end
 
-# I function for all synapses
-#=
-this
-    AdEx_Synapse_I(s::AdEx_Synapse, t, V) = s.g * (V - s.E_syn);
-would be the NeuronalDynamics implementation. But, clearly, that doesn't really
-make any sense, because that'll make inhibitory synapses excitatory and vice
-versa. swapped the V - s.E_syn terms around in the current one for appropriate
-results.
-=#
+## Transmission current functions
 AdEx_Synapse_I(s::AdEx_Synapse, t, V) = s.g * ((s.E_syn + V) * 1e3);
+AdEx_Synapse_I_D(s::AdEx_Synapse, t, V) = s.g * (s.a_scale * s.D) * ((s.E_syn + V) * 1e3);
+AdEx_Synapse_I_F(s::AdEx_Synapse, t, V) = s.g * (s.b_scale * s.F) * ((s.E_syn + V) * 1e3);
+
+AdEx_Synapse_dDdt(s::AdEx_Synapse, n::AdEx_Neuron, t, D) = (1 - D) / s.τ_D1 - (D * AdEx_Neuron_I(n, t)) / s.τ_D2;
+AdEx_Synapse_dDdt(s::AdEx_Synapse, n::AdEx_Neuron, t) = (1 - s.D) / s.τ_D1 - (s.D * AdEx_Neuron_I(n, t)) / s.τ_D2;
+
+AdEx_Synapse_dFdt(s::AdEx_Synapse, n::AdEx_Neuron, t, F) = (1 - F) / s.τ_F1 - (F * AdEx_Neuron_I(n, t)) / s.τ_F2;
+AdEx_Synapse_dFdt(s::AdEx_Synapse, n::AdEx_Neuron, t) = (1 - s.F) / s.τ_F1 - (s.F * AdEx_Neuron_I(n, t)) / s.τ_F2;
 
 ## NMDA synapse
 @with_kw mutable struct AdEx_Synapse_NMDA <: AdEx_Synapse
@@ -28,6 +28,10 @@ AdEx_Synapse_I(s::AdEx_Synapse, t, V) = s.g * ((s.E_syn + V) * 1e3);
     g::AdEx_Float = 0nS
     I::AdEx_Float = 0mV
     E_syn::AdEx_Float = 0mV
+    F::AdEx_Float = 1
+    τ_F1 = 1500ms
+    τ_F2 = 100ms
+    b_scale = 3
 end
 
 AdEx_Synapse_g(s::AdEx_Synapse_NMDA, t, t_f, V) = s.g_c_NMDA * (1 - exp(-((t - t_f) / s.τ_rise))) * exp(-((t - t_f) / s.τ_decay)) * (1 + s.β * exp(-s.α * V) * s.Mg2p)^(-1) * Θ(t - t_f);
@@ -45,6 +49,10 @@ AdEx_Synapse_g(s::AdEx_Synapse_NMDA, t, t_f, V) = s.g_c_NMDA * (1 - exp(-((t - t
     g::AdEx_Float = 0nS
     g_c_GABA_A::AdEx_Float = 40nS
     I::AdEx_Float = 0mV
+    D::AdEx_Float = 1
+    τ_D1 = 1000ms
+    τ_D2 = 250ms
+    a_scale = 1.7
 end
 
 AdEx_Synapse_g(s::AdEx_Synapse_GABA_A, t, t_f, V) = s.g_c_GABA_A * (1 - exp(-((t - t_f) / s.τ_rise))) * (s.a * exp(-((t - t_f) / s.τ_fast))) * Θ(t - t_f);
@@ -62,6 +70,10 @@ AdEx_Synapse_g(s::AdEx_Synapse_GABA_A, t, t_f, V) = s.g_c_GABA_A * (1 - exp(-((t
     g::AdEx_Float = 0nS
     g_c_GABA_B::AdEx_Float = 40nS
     I::AdEx_Float = 0mV
+    D::AdEx_Float = 1
+    τ_D1 = 1000ms
+    τ_D2 = 250ms
+    a_scale = 1.7
 end
 
 AdEx_Synapse_g(s::AdEx_Synapse_GABA_B, t, t_f, V) = s.g_c_GABA_B * (1 - exp(-((t - t_f) / s.τ_rise))) * (s.a * exp(-((t - t_f) / s.τ_fast)) + (1 - s.a) * exp(-((t - t_f) / s.τ_slow))) * Θ(t - t_f);
@@ -77,6 +89,10 @@ AdEx_Synapse_g(s::AdEx_Synapse_GABA_B, t, t_f, V) = s.g_c_GABA_B * (1 - exp(-((t
     τ::AdEx_Float = 5ms
     I::AdEx_Float = 0mV
     E_syn::AdEx_Float = 0mV
+    F::AdEx_Float = 1
+    τ_F1 = 1500ms
+    τ_F2 = 100ms
+    b_scale = 3
 end
 
 AdEx_Synapse_g(s::AdEx_Synapse_AMPA, t, t_f, V) = s.g_c_AMPA * exp(-((t - t_f) / s.τ)) * Θ(t - t_f);
