@@ -110,7 +110,7 @@ function AdEx_Neuron_Firing_Affect(n::AdEx_Neuron_Excitatory, t)
 end
 
 ## PV neuron taken from Park & Geffen (2020)
-@with_kw mutable struct AdEx_Neuron_PV <: AdEx_Neuron
+@with_kw mutable struct AdEx_Interneuron_PV <: AdEx_Neuron
     V_history::Array{AdEx_Float} = AdEx_Float[];
     w_history::Array{AdEx_Float} = AdEx_Float[];
     I::Array{AdEx_Float} = AdEx_Float[];
@@ -130,22 +130,22 @@ end
     t_f::AdEx_Float = -1ms
 end
 
-AdEx_Neuron_dVdt(n::AdEx_Neuron_PV, t, V) = -n.g_L * (V - n.E_L) + n.g_L * n.Δ_T * exp((V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
-AdEx_Neuron_dVdt(n::AdEx_Neuron_PV, t) = -n.g_L * (n.V - n.E_L) + n.g_L * n.Δ_T * exp((n.V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
+AdEx_Neuron_dVdt(n::AdEx_Interneuron_PV, t, V) = -n.g_L * (V - n.E_L) + n.g_L * n.Δ_T * exp((V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
+AdEx_Neuron_dVdt(n::AdEx_Interneuron_PV, t) = -n.g_L * (n.V - n.E_L) + n.g_L * n.Δ_T * exp((n.V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
 
-AdEx_Neuron_dwdt(n::AdEx_Neuron_PV, t, w) = n.α * (n.V - n.E_L) - w + n.β * n.τ_w * δ(t - n.t_f);
-AdEx_Neuron_dwdt(n::AdEx_Neuron_PV, t) = n.α * (n.V - n.E_L) - n.w + n.β * n.τ_w * δ(t - n.t_f);
+AdEx_Neuron_dwdt(n::AdEx_Interneuron_PV, t, w) = n.α * (n.V - n.E_L) - w + n.β * n.τ_w * δ(t - n.t_f);
+AdEx_Neuron_dwdt(n::AdEx_Interneuron_PV, t) = n.α * (n.V - n.E_L) - n.w + n.β * n.τ_w * δ(t - n.t_f);
 
-AdEx_Neuron_Firing_Condition(n::AdEx_Neuron_PV, t) = n.V >= n.Θ_reset;
+AdEx_Neuron_Firing_Condition(n::AdEx_Interneuron_PV, t) = n.V >= n.Θ_reset;
 
-function AdEx_Neuron_Firing_Affect(n::AdEx_Neuron_PV, t)
+function AdEx_Neuron_Firing_Affect(n::AdEx_Interneuron_PV, t)
     n.w += n.β;
     n.t_f = t;
     n.V = n.E_L;
 end
 
 ## SST neuron taken from Park & Geffen (2020)
-@with_kw mutable struct AdEx_Neuron_SST <: AdEx_Neuron
+@with_kw mutable struct AdEx_Interneuron_SST <: AdEx_Neuron
     V_history::Array{AdEx_Float} = AdEx_Float[];
     w_history::Array{AdEx_Float} = AdEx_Float[];
     I::Array{AdEx_Float} = AdEx_Float[];
@@ -165,15 +165,15 @@ end
     t_f::AdEx_Float = -1ms
 end
 
-AdEx_Neuron_dVdt(n::AdEx_Neuron_SST, t, V) = -n.g_L * (V - n.E_L) + n.g_L * n.Δ_T * exp((V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
-AdEx_Neuron_dVdt(n::AdEx_Neuron_SST, t) = -n.g_L * (n.V - n.E_L) + n.g_L * n.Δ_T * exp((n.V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
+AdEx_Neuron_dVdt(n::AdEx_Interneuron_SST, t, V) = -n.g_L * (V - n.E_L) + n.g_L * n.Δ_T * exp((V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
+AdEx_Neuron_dVdt(n::AdEx_Interneuron_SST, t) = -n.g_L * (n.V - n.E_L) + n.g_L * n.Δ_T * exp((n.V - n.𝜗_rh) / n.Δ_T) + AdEx_Neuron_I(n, t) - n.w;
 
-AdEx_Neuron_dwdt(n::AdEx_Neuron_SST, t, w) = n.α * (n.V - n.E_L) - w + n.β * n.τ_w * δ(t - n.t_f);
-AdEx_Neuron_dwdt(n::AdEx_Neuron_SST, t) = n.α * (n.V - n.E_L) - n.w + n.β * n.τ_w * δ(t - n.t_f);
+AdEx_Neuron_dwdt(n::AdEx_Interneuron_SST, t, w) = n.α * (n.V - n.E_L) - w + n.β * n.τ_w * δ(t - n.t_f);
+AdEx_Neuron_dwdt(n::AdEx_Interneuron_SST, t) = n.α * (n.V - n.E_L) - n.w + n.β * n.τ_w * δ(t - n.t_f);
 
-AdEx_Neuron_Firing_Condition(n::AdEx_Neuron_SST, t) = n.V >= n.Θ_reset;
+AdEx_Neuron_Firing_Condition(n::AdEx_Interneuron_SST, t) = n.V >= n.Θ_reset;
 
-function AdEx_Neuron_Firing_Affect(n::AdEx_Neuron_SST, t)
+function AdEx_Neuron_Firing_Affect(n::AdEx_Interneuron_SST, t)
     n.w += n.β;
     n.t_f = t;
     n.V = n.E_L;

@@ -13,7 +13,7 @@ network_draft = [
         )]
     ),
     AdEx_Model_Neurons(
-        T=AdEx_Neuron_SST,
+        T=AdEx_Interneuron_SST,
         N=1,
         S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_GABA_A,
@@ -21,7 +21,7 @@ network_draft = [
         )]
     ),
     AdEx_Model_Neurons(
-        T=AdEx_Neuron_PV,
+        T=AdEx_Interneuron_PV,
         N=1,
         S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_GABA_A,

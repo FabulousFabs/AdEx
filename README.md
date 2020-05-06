@@ -8,9 +8,9 @@
 * [x] AdEx_Neuron_T1<sup>[[2]](#references)</sup> implemented
 * [x] AdEx_Neuron_T2<sup>[[1]](#references)</sup> implemented
 * [x] AdEx_Neuron_Excitatory<sup>[[3]](#references)</sup> implemented
-* [x] AdEx_Neuron_SST<sup>[[3]](#references)</sup> implemented
-* [x] AdEx_Neuron_PV<sup>[[3]](#references)</sup> implemented
-* [x] Neurons can have multiple types of synapses
+* [x] AdEx_Interneuron_SST<sup>[[3]](#references)</sup> implemented
+* [x] AdEx_Interneuron_PV<sup>[[3]](#references)</sup> implemented
+* [x] All (inter-)neurons can have multiple types of synapses
 * [x] GABA_a, GABA_b, AMPA & NMDA synapses<sup>[[1]](#references)</sup> implemented
 * [x] Now properly modelling interactions of Exc -> SST and PV -> Exc, as described by Park & Geffen<sup>[[3]](#references)</sup> and Tremblay et al.<sup>[[6]](#references)</sup>
 * [x] Comprehensive plots added
