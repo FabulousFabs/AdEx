@@ -7,18 +7,29 @@ network_draft = [
     AdEx_Model_Neurons(
         T=AdEx_Neuron_T1,
         N=2,
-        S=AdEx_Model_Synapses(
+        S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_AMPA,
             C=Int[3]
-        )
+        )]
     ),
     AdEx_Model_Neurons(
         T=AdEx_Neuron_T1,
         N=1,
-        S=AdEx_Model_Synapses(
+        S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_GABA_B,
             C=Int[1, 2]
-        )
+        ), AdEx_Model_Synapses(
+            T=AdEx_Synapse_AMPA,
+            C=Int[4]
+        )]
+    ),
+    AdEx_Model_Neurons(
+        T=AdEx_Neuron_T1,
+        N=1,
+        S=[AdEx_Model_Synapses(
+            T=AdEx_Synapse_GABA_A,
+            C=Int[1, 2]
+        )]
     )
 ];
 

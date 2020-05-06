@@ -18,7 +18,7 @@ end
 @with_kw mutable struct AdEx_Model_Neurons
     T::Type
     N::Int
-    S::AdEx_Model_Synapses
+    S::Array{AdEx_Model_Synapses}
 end
 
 function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
@@ -27,9 +27,14 @@ function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
     for nse in ns
         for i = 1:nse.N
             s = AdEx_Synapse[];
-            for c in nse.S.C
-                push!(s, nse.S.T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
+            for j = 1:size(nse.S)[1]
+                for c in nse.S[j].C
+                    push!(s, nse.S[j].T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
+                end
             end
+            #for c in nse.S.C
+            #    push!(s, nse.S.T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
+            #end
             push!(model.Neurons, nse.T(Synapses=s));
         end
     end
