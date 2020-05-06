@@ -6,10 +6,10 @@
 * Test this by replicating the results of Pan et al. [4]
 
 ## Current state
-* AdEx_Neuron_T1 implemented
-* AdEx_Neuron_T2 implemented
-* Pedantic Heun's method implemented (no longer utilises DifferentialEquations.jl)
-* GABA_a, GABA_b, AMPA & NMDA synapses implemented
+* AdEx_Neuron_T1 implemented [2]
+* AdEx_Neuron_T2 implemented [1]
+* Pedantic Heun's method implemented (no longer utilises DifferentialEquations.jl) [5]
+* GABA_a, GABA_b, AMPA & NMDA synapses implemented [1]
 * Neurons can have multiple types of synapses
 * Comprehensive plots added
 	* For example, for model:
@@ -79,3 +79,5 @@
 * [3] Park, Y., & Geffen, M.N. (preprint). A unifying mechanistic model of excitatory-inhibitory interactions in the auditory cortex. bioRxiv, 626358. DOI: http://dx.doi.org/10.1101/626358
 
 * [4] Pan, Z., Chua, Y., Wu, J., Zhang, M., Li, H., & Ambikairajah, E. (2020). Motivated auditory neural encoding and decoding algorithm for spiking neural networks. Frontiers in Neuroscience: Neuromorphic Engineering, 13, 1420. DOI: http://dx.doi.org/10.3389/fnins.2019.01420
+
+* [5] Numerical Methods--Heun's method. (n.d.). CalculusLab, San Joaquin Delta College. Retrieved May 5, 2020, from http://calculuslab.deltacollege.edu/ODE/7-C-2/7-C-2-h.html
