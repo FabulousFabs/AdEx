@@ -1,15 +1,15 @@
 # Spiking neural network implementation<sup>[1]</sup> with AdEx neurons<sup>[[2]](#references)</sup>
 
 ## To-do:
-* [ ] Add more compartments such that we can truthfully model A1 circuits of SST-expressing GABAergic interneurons firing at dendrites of excitatory neurons and PV-expressing GABAergic interneurons firing at somas of excitatory neurons, as per Park & Geffen<sup>[3]</sup>
+* [ ] Add more compartments such that we can truthfully model A1 circuits of SST-expressing GABAergic interneurons firing at dendrites of excitatory neurons and PV-expressing GABAergic interneurons firing at somas of excitatory neurons, as per Park & Geffen<sup>[[3]](#references)</sup>
 
-* [ ] Test this by replicating the results of Pan et al.<sup>[4]</sup>
+* [ ] Test this by replicating the results of Pan et al.<sup>[[4]](#references)</sup>
 
 ## Current state
-* [x] AdEx_Neuron_T1<sup>[2]</sup> implemented
-* [x] AdEx_Neuron_T2<sup>[1]</sup> implemented
-* [x] Pedantic Heun's method<sup>[5]</sup> implemented (no longer utilises DifferentialEquations.jl)
-* [x] GABA_a, GABA_b, AMPA & NMDA synapses<sup>[1]</sup> implemented
+* [x] AdEx_Neuron_T1<sup>[[2]](#references)</sup> implemented
+* [x] AdEx_Neuron_T2<sup>[[1]](#references)</sup> implemented
+* [x] Pedantic Heun's method<sup>[[5]](#references)</sup> implemented (no longer utilises DifferentialEquations.jl)
+* [x] GABA_a, GABA_b, AMPA & NMDA synapses<sup>[[1]](#references)</sup> implemented
 * [x] Neurons can have multiple types of synapses
 * [x] Comprehensive plots added
 	* For example, for model:
