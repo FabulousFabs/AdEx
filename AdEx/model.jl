@@ -3,8 +3,8 @@ using Parameters, Plots
 include("units.jl");
 include("funcs.jl");
 
-include("synapse.jl");
 include("neuron.jl");
+include("synapse.jl");
 
 @with_kw mutable struct AdEx_Model
     Neurons::Array{AdEx_Neuron} = AdEx_Neuron[];

@@ -1,4 +1,4 @@
-# main file for testing our AdEx implementation
+# main file for testing our AdEx SNN implementation
 
 include("AdEx/model.jl");
 
