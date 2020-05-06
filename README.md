@@ -12,7 +12,7 @@
 * [x] AdEx_Neuron_PV<sup>[[3]](#references)</sup> implemented
 * [x] Neurons can have multiple types of synapses
 * [x] GABA_a, GABA_b, AMPA & NMDA synapses<sup>[[1]](#references)</sup> implemented
-* [x] Now properly modelling interactions of Exc -> SST and PV -> Exc, as described by Park & Geffen<sup>[[3]](#references)</sup>
+* [x] Now properly modelling interactions of Exc -> SST and PV -> Exc, as described by Park & Geffen<sup>[[3]](#references)</sup> and Tremblay et al.[[6]](#references)
 * [x] Comprehensive plots added
 	* For example, for model:
 		```julia
