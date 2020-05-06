@@ -2,7 +2,7 @@
 
 include("AdEx/model.jl");
 
-# draw up model
+## draw up model
 network_draft = [
     AdEx_Model_Neurons(
         T=AdEx_Neuron_T1,
@@ -44,21 +44,20 @@ network_draft = [
     )
 ];
 
-# create model
+## create model
 model = AdEx_Model_Create(network_draft);
 
-# setup simulation
+## setup simulation
 T = (0ms, 2000ms);
 I = [
     (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
     (2, AdEx_sin(T[1]:T[2], 2mV, 0.001))
 ];
 
-# run simulation
+## run simulation
 spikes = AdEx_Model_Simulate(model, T, I; dt=1ms);
 
-# plot spike trains
-Base.showable(::MIME"application/prs.juno.plotpane+html", plt::Plots.Plot) = false
+## plot spike trains
 display(AdEx_Model_Plot_Synapses(model));
-#display(AdEx_Model_Plot_Neurons(model));
-#display(AdEx_Plot_Spikes(spikes, T; dt=1ms));
+display(AdEx_Model_Plot_Neurons(model));
+display(AdEx_Plot_Spikes(spikes, T; dt=1ms));
