@@ -3,7 +3,7 @@
 ## To-do:
 * [ ] Add different neuron markers for excitatory, SST-expressing and PV-expressing neurons such that we can truthfully model A1 circuits of excitatory neurons and SST-expressing GABAergic INs firing at dendrites and PV-expressing GABAergic INs firing at somas of excitatory neurons, as per Park & Geffen<sup>[[3, 6]](#references)</sup>
 	* This could be achieved by implementing a non-linear cable equation<sup>[[1]](#references)</sup>:
-		![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cpartial%7D%7B%5Cpartial%20t%7D%5C%2Cu%28t%2Cx%29-%5Cfrac%7B%5Cpartial%5E%7B2%7D%7D%7B%5Cpartial%20x%25%5E%7B2%7D%7D%5C%2Cu%28t%2Cx%29&plus;u%28t%2Cx%29&plus;g_%7B%5Ctext%7Bsyn%7D%7D%28t%2Cx%29%5Bu%28t%2Cx%29-E_%7B%5Ctext%7Bsyn%7D%7D%5D%20%3D%200)
+		![equation](http://latex.codecogs.com/png.latex?%5Cfrac%7B%5Cpartial%7D%7B%5Cpartial%20t%7D%5C%2Cu%28t%2Cx%29-%5Cfrac%7B%5Cpartial%5E%7B2%7D%7D%7B%5Cpartial%20x%25%5E%7B2%7D%7D%5C%2Cu%28t%2Cx%29&plus;u%28t%2Cx%29&plus;g_%7B%5Ctext%7Bsyn%7D%7D%28t%2Cx%29%5Bu%28t%2Cx%29-E_%7B%5Ctext%7Bsyn%7D%7D%5D%20%3D%200)
 		<img src="https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cpartial%7D%7B%5Cpartial%20t%7Dg_%7B%5Ctext%7Bsyn%7D%7D%28t%2Cx%29-%5Ctau_%7B%5Ctext%7Bsyn%7D%7D%5E%25%7B-1%7D%5C%2Cg_%7B%5Ctext%7Bsyn%7D%7D%28t%2Cx%29%20%3D%20S%28t%2Cx%29" />
 		```
 	* This could then be used to model decay of input currents differently between excitatory/SST/PV (inter-)neurons.
