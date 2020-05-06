@@ -9,7 +9,7 @@
 * AdEx_Neuron_T1 implemented
 * AdEx_Neuron_T2 implemented
 * Pedantic Heun's method implemented (lost DifferentialEquations.jl)
-* GABA_a, GABA_b, AMPA & NDMA synapses implemented
+* GABA_a, GABA_b, AMPA & NMDA synapses implemented
 * Neurons can have multiple types of synapses
 * Comprehensive plots added
 	* For example, for model:
