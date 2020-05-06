@@ -1,4 +1,4 @@
-# Spiking neural network implementation<sup>[1]</sup> with AdEx neurons<sup>[[2]](#references)</sup>
+# Spiking neural network implementation<sup>[[1]](#references)</sup> with AdEx neurons<sup>[[2]](#references)</sup>
 
 ## To-do:
 * [ ] Add more compartments such that we can truthfully model A1 circuits of SST-expressing GABAergic interneurons firing at dendrites of excitatory neurons and PV-expressing GABAergic interneurons firing at somas of excitatory neurons, as per Park & Geffen<sup>[[3]](#references)</sup>
