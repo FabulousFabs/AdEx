@@ -8,7 +8,7 @@
 ## Current state
 * AdEx_Neuron_T1 implemented
 * AdEx_Neuron_T2 implemented
-* Pedantic Heun's method implemented (lost DifferentialEquations.jl)
+* Pedantic Heun's method implemented (no longer utilises DifferentialEquations.jl)
 * GABA_a, GABA_b, AMPA & NMDA synapses implemented
 * Neurons can have multiple types of synapses
 * Comprehensive plots added
@@ -64,9 +64,12 @@
 		];
 		```
 	* We get:
-		* Spike train plots ![](https://i.imgur.com/97WRgjD.png)
-		* Neuron history plots ![](https://i.imgur.com/ivIvP73.png)
-		* Synapse history plots, left column I(t), right column g(t), rows = one synapse ![](https://i.imgur.com/Hqm3fm6.png)
+		* Spike train plots
+			* <img src="https://i.imgur.com/97WRgjD.png" width="50%" height="50%" />
+		* Neuron history plots
+			* <img src="https://i.imgur.com/ivIvP73.png" width="50%" height="50%" />
+		* Synapse history plots, left column I(t), right column g(t), rows = one synapse
+			* <img src="https://i.imgur.com/Hqm3fm6.png" width="50%" height="50%" />
 
 ## References
 * [1] Gerstner, W., Kistler, W.M., Naud, R., & Paninski, L. (2014). Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition. New York: CUP.
