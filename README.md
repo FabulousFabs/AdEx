@@ -57,7 +57,7 @@
 		    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
 		    (2, AdEx_sin(T[1]:T[2], 2mV, 0.001))
 		];
-		´´´
+		```
 	* ![Spike trains plots](https://i.imgur.com/97WRgjD.png)
 	* ![Neuron history plots](https://i.imgur.com/ivIvP73.png)
 	* ![Synapse history plots, left column I(t), right column g(t), rows = one synapse](https://i.imgur.com/Hqm3fm6.png)
