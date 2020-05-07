@@ -50,7 +50,7 @@ I = [
 ];
 
 ## run simulation
-spikes = AdEx_Model_Simulate(model, T, I; dt=1ms);
+spikes = AdEx_Model_Simulate(model, T, I; dt=1ms, σ=0.1mV);
 
 ## plot spike trains
 #display(AdEx_Model_Plot_Synapses(model));

@@ -13,6 +13,7 @@
 * [x] All (inter-)neurons can have multiple types of synapses
 * [x] GABA_a, GABA_b, AMPA & NMDA synapses<sup>[[1]](#references)</sup> implemented
 * [x] Now properly modelling interactions of Exc -> SST and PV -> Exc, as described by Park & Geffen<sup>[[3]](#references)</sup> and Tremblay et al.<sup>[[6]](#references)</sup>
+* [x] White gaussian noise injection implemented for neurons
 * [x] Comprehensive plots added
 	* For example, for model:
 		```julia
@@ -64,6 +65,10 @@
 		    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
 		    (2, AdEx_sin(T[1]:T[2], 2mV, 0.001))
 		];
+		
+		...
+		
+		AdEx_Model_Simulate(model, T, I; dt=1ms, σ=0.1mV);
 		```
 	* We get:
 		* Spike train plots
@@ -72,6 +77,11 @@
 			* <img src="https://i.imgur.com/ivIvP73.png" width="50%" height="50%" />
 		* Synapse history plots, left column I(t), right column g(t), rows = one synapse
 			* <img src="https://i.imgur.com/Hqm3fm6.png" width="50%" height="50%" />
+
+## Dependencies
+* Parameters
+* Distributions
+* Plots
 
 ## References
 * [1] Gerstner, W., Kistler, W.M., Naud, R., & Paninski, L. (2014). Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition. New York: CUP.

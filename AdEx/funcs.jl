@@ -6,7 +6,7 @@
 
 # heaviside step approximation
 Θ(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}) = 1 ./ (1 .+ exp.(-2 .* 10000 .* t));
-Θ(t::AdEx_Float) = 1 ./ (1 .+ exp.(-2 .* 10000 .* t));
+Θ(t::AdEx_Float) = 1 ./ (1 .+ exp.(-2 .* 10e3 .* t));
 
 # common input functions
 AdEx_boxcar(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}, a::AdEx_Float, b::AdEx_Float, A::AdEx_Float) = A .* (Θ(t .- a) .- Θ(t .- b));

@@ -1,4 +1,4 @@
-using Parameters
+using Parameters, Distributions
 
 include("units.jl");
 include("funcs.jl");
@@ -23,11 +23,11 @@ end
 end
 
 function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
-    model = AdEx_Model();
+    model::AdEx_Model = AdEx_Model();
 
     for nse in ns
         for i = 1:nse.N
-            s = AdEx_Synapse[];
+            s::Array{AdEx_Synapse} = AdEx_Synapse[];
             for j = 1:size(nse.S)[1]
                 for c in nse.S[j].C
                     push!(s, nse.S[j].T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
@@ -40,13 +40,13 @@ function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
     model;
 end
 
-function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw::Array{Tuple{Int,Array{AdEx_Float,1}},1}; dt::AdEx_Float=0.1ms)
-    ## setup injection currents & spike bin
-    I_inj = map(x -> zeros(floor(Int, T[2]+1)), 1:size(model.Neurons)[1]);
+function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw::Array{Tuple{Int,Array{AdEx_Float,1}},1}; dt::AdEx_Float=0.1ms, σ::AdEx_Float=20mV, μ::AdEx_Float=0mV, lb::AdEx_Float=0mV, ub::AdEx_Float=σ)
+    ## setup injection currents (white gaussian noise + inj_kw) & spike bin
+    I_inj::Array{Array{AdEx_Float}} = map(x -> rand(Truncated(Normal(μ, σ), lb, ub), floor(Int, T[2]+1)), 1:size(model.Neurons)[1]);
     spike_bin::Array{Array{AdEx_Float}} = AdEx_Float[];
 
     for t in I_inj_kw
-        I_inj[t[1]] = t[2];
+        I_inj[t[1]] = I_inj[t[1]] .+ t[2];
     end
 
     for i = 1:size(model.Neurons)[1]
