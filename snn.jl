@@ -53,6 +53,4 @@ I = [
 spikes = AdEx_Model_Simulate(model, T, I; dt=1ms, σ=0.1mV);
 
 ## plot spike trains
-#display(AdEx_Model_Plot_Synapses(model));
-#display(AdEx_Model_Plot_Neurons(model));
 display(AdEx_Plot_Spikes(spikes, T; dt=1ms));

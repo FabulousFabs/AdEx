@@ -12,4 +12,4 @@
 AdEx_boxcar(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}, a::AdEx_Float, b::AdEx_Float, A::AdEx_Float) = A .* (Θ(t .- a) .- Θ(t .- b));
 AdEx_sin(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}, A::AdEx_Float, f::AdEx_Float) = A .* sin.(2 .* π .* f .* t);
 AdEx_pulse(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}, t_p::AdEx_Float, A::AdEx_Float) = A .* δ(t .- t_p);
-AdEx_null(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}) = t .* 0;
+AdEx_null(t::StepRangeLen{AdEx_Float,Base.TwicePrecision{AdEx_Float},Base.TwicePrecision{AdEx_Float}}) = 0.0 .* collect(t);

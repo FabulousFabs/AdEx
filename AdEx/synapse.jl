@@ -3,9 +3,9 @@
 include("synapse_parameters.jl");
 
 ## Transmission current functions
-AdEx_Synapse_I(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * ((s.E_syn + V));# * 1e3);
-AdEx_Synapse_I_D(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * (s.a_scale * s.D) * ((s.E_syn + V));# * 1e3);
-AdEx_Synapse_I_F(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * (s.b_scale * s.F) * ((s.E_syn + V));# * 1e3);
+AdEx_Synapse_I(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * ((s.E_syn + V) * 1e3);
+AdEx_Synapse_I_D(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * (s.a_scale * s.D) * ((s.E_syn + V) * 1e3);
+AdEx_Synapse_I_F(s::AdEx_Synapse, t::AdEx_Float, V::AdEx_Float) = s.g * (s.b_scale * s.F) * ((s.E_syn + V) * 1e3);
 
 AdEx_Synapse_dDdt(s::AdEx_Synapse, n::AdEx_Neuron, t::AdEx_Float, D::AdEx_Float) = (1 - D) / s.τ_D1 - (D * AdEx_Neuron_I(n, t)) / s.τ_D2;
 AdEx_Synapse_dDdt(s::AdEx_Synapse, n::AdEx_Neuron, t::AdEx_Float) = (1 - s.D) / s.τ_D1 - (s.D * AdEx_Neuron_I(n, t)) / s.τ_D2;
