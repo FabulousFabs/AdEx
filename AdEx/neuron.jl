@@ -1,4 +1,4 @@
-# AdEx neuron implementations
+# AdEx neuron functions
 
 include("neuron_parameters.jl");
 

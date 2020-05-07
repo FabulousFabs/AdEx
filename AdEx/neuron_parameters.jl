@@ -1,7 +1,4 @@
-# AdEx neuron implementations
-
-## abstract neuron definition
-abstract type AdEx_Neuron end
+# AdEx neuron parameters
 
 ## T1 neuron taken from Brette & Gerstner (2005)
 @with_kw mutable struct AdEx_Neuron_T1 <: AdEx_Neuron

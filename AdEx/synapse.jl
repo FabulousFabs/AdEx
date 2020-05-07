@@ -1,4 +1,4 @@
-# AdEx Neuron implementation
+# AdEx synapse functions
 
 include("synapse_parameters.jl");
 

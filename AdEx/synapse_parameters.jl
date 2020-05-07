@@ -1,6 +1,4 @@
-# AdEx Neuron implementation
-
-abstract type AdEx_Synapse end
+# AdEx synapse parameters
 
 ## NMDA synapse
 @with_kw mutable struct AdEx_Synapse_NMDA <: AdEx_Synapse

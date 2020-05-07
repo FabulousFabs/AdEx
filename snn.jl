@@ -1,6 +1,7 @@
 # main file for testing our AdEx SNN implementation
 
 include("AdEx/model.jl");
+include("AdEx/model_plots.jl");
 
 ## draw up model
 network_draft = [
