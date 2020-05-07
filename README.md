@@ -16,68 +16,13 @@
 * [x] Now properly modelling interactions of Exc -> SST and PV -> Exc, as described by Park & Geffen<sup>[[3]](#references)</sup> and Tremblay et al.<sup>[[6]](#references)</sup>
 * [x] White gaussian noise injection implemented for neurons
 * [x] Comprehensive plots added
-	* For example, for model:
-		```julia
-		network_draft = [
-		    AdEx_Model_Neurons(
-		        T=AdEx_Neuron_T1,
-		        N=2,
-		        S=[AdEx_Model_Synapses(
-		            T=AdEx_Synapse_AMPA,
-		            C=Int[4, 5]
-		        )]
-		    ),
-		    AdEx_Model_Neurons(
-		        T=AdEx_Neuron_T1,
-		        N=1,
-		        S=[AdEx_Model_Synapses(
-		            T=AdEx_Synapse_GABA_A,
-		            C=Int[1, 2]
-		        ), AdEx_Model_Synapses(
-		            T=AdEx_Synapse_AMPA,
-		            C=Int[6]
-		        )]
-		    ),
-		    AdEx_Model_Neurons(
-		        T=AdEx_Neuron_T1,
-		        N=2,
-		        S=[AdEx_Model_Synapses(
-		            T=AdEx_Synapse_NMDA,
-		            C=Int[1, 2]
-		        ), AdEx_Model_Synapses(
-		            T=AdEx_Synapse_AMPA,
-		            C=Int[3, 3, 3]
-		        )]
-		    ),
-		    AdEx_Model_Neurons(
-		        T=AdEx_Neuron_T1,
-		        N=1,
-		        S=[AdEx_Model_Synapses(
-		            T=AdEx_Synapse_GABA_A,
-		            C=Int[1, 2]
-		        )]
-		    )
-		];
-		
-		...
-		
-		T = (0ms, 2000ms);
-		I = [
-		    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
-		    (2, AdEx_sin(T[1]:T[2], 2mV, 0.001))
-		];
-		
-		...
-		
-		AdEx_Model_Simulate(model, T, I; dt=1ms, σ=0.1mV);
-		```
-	* We get:
+	* For example, for the A1-microcircuit specified in snn.jl we get the following plots:
 		* Spike train plots
-			* <img src="https://i.imgur.com/97WRgjD.png" width="50%" height="50%" />
-		* Neuron history plots
-			* <img src="https://i.imgur.com/ivIvP73.png" width="50%" height="50%" />
+			* <img src="https://i.imgur.com/RgHQang.png" width="40%" height="50%" />
+		* Neuron history plots with one neuron per row
+			* <img src="https://i.imgur.com/leVQd9n.png" width="40%" height="50%" />
 		* Synapse history plots, left column I(t), right column g(t), rows = one synapse
-			* <img src="https://i.imgur.com/Hqm3fm6.png" width="50%" height="50%" />
+			* <img src="https://i.imgur.com/M9Jo4Xm.png" width="40%" height="50%" />
 
 ## Dependencies
 * Parameters (required)

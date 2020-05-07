@@ -17,7 +17,7 @@ A1_microcircuit = [
         T=AdEx_Interneuron_PV,
         N=1,
         S=[AdEx_Model_Synapses(
-            T=AdEx_Synapse_GABA_A,
+            T=AdEx_Synapse_GABA_B,
             C=Int[1, 3]
         )]
     ),
