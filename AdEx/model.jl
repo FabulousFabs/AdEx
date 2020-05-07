@@ -33,14 +33,18 @@ function AdEx_Model_Create(ns::Array{AdEx_Model_Neurons})
                     push!(s, nse.S[j].T(PreSyn=(size(model.Neurons)[1] + 1), PostSyn=c));
                 end
             end
-            push!(model.Neurons, nse.T(Synapses=s));
+
+            neuron = nse.T()
+            neuron.Synapses = s;
+            
+            push!(model.Neurons, neuron);
         end
     end
 
     model;
 end
 
-function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw::Array{Tuple{Int,Array{AdEx_Float,1}},1}; dt::AdEx_Float=0.1ms, σ::AdEx_Float=20mV, μ::AdEx_Float=0mV, lb::AdEx_Float=0mV, ub::AdEx_Float=σ)
+function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}, I_inj_kw::Array{Tuple{Int,Array{AdEx_Float,1}},1}; dt::AdEx_Float=0.1ms, σ::AdEx_Float=200pA, μ::AdEx_Float=0pA, lb::AdEx_Float=0pA, ub::AdEx_Float=σ)
     ## setup injection currents (white gaussian noise + inj_kw) & spike bin
     I_inj::Array{Array{AdEx_Float}} = map(x -> rand(Truncated(Normal(μ, σ), lb, ub), floor(Int, T[2]+1)), 1:size(model.Neurons)[1]);
     spike_bin::Array{Array{AdEx_Float}} = AdEx_Float[];
@@ -69,7 +73,7 @@ function AdEx_Model_Simulate(model::AdEx_Model, T::Tuple{AdEx_Float, AdEx_Float}
             # synapses
             if model.Neurons[i].t_f > -1
                 for j = 1:size(model.Neurons[i].Synapses)[1]
-                    model.Neurons[i].Synapses[j].g = AdEx_Synapse_g(model.Neurons[i].Synapses[j], t, model.Neurons[i].t_f, model.Neurons[i].Θ_reset);
+                    model.Neurons[i].Synapses[j].g = AdEx_Synapse_dgdt(model.Neurons[i].Synapses[j], t, model.Neurons[i].t_f, model.Neurons[i].Θ_reset);
 
                     # account for differences in conductance between Exc -> SST, PV -> Exc & regular connections
                     if (typeof(model.Neurons[1]) in [AdEx_Neuron_Excitatory, AdEx_Interneuron_PV])

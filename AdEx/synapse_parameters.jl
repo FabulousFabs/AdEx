@@ -12,7 +12,7 @@
     Mg2p::AdEx_Float = 1.2mM
     α::AdEx_Float = (0.062mV)^-1
     β::AdEx_Float = 1 / 3.57mM
-    g::AdEx_Float = 0nS
+    g::AdEx_Float = g_c_NMDA
     I::AdEx_Float = 0mV
     E_syn::AdEx_Float = 0mV
     F::AdEx_Float = 1
@@ -31,8 +31,8 @@ end
     τ_rise::AdEx_Float = 1ms
     τ_fast::AdEx_Float = 6ms
     E_syn::AdEx_Float = -75mV
-    g::AdEx_Float = 0nS
     g_c_GABA_A::AdEx_Float = 40nS
+    g::AdEx_Float = g_c_GABA_A
     I::AdEx_Float = 0mV
     D::AdEx_Float = 1
     τ_D1::AdEx_Float = 1000ms
@@ -50,8 +50,8 @@ end
     τ_fast::AdEx_Float = 100ms
     τ_slow::AdEx_Float = 500ms
     E_syn::AdEx_Float = -75mV
-    g::AdEx_Float = 0nS
     g_c_GABA_B::AdEx_Float = 40nS
+    g::AdEx_Float = g_c_GABA_B
     I::AdEx_Float = 0mV
     D::AdEx_Float = 1
     τ_D1::AdEx_Float = 1000ms
@@ -66,7 +66,7 @@ end
     PreSyn::Int = -1
     PostSyn::Int = -1
     g_c_AMPA::AdEx_Float = 40nS
-    g::AdEx_Float = 0nS
+    g::AdEx_Float = g_c_AMPA
     τ::AdEx_Float = 5ms
     I::AdEx_Float = 0mV
     E_syn::AdEx_Float = 0mV

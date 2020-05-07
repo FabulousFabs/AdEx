@@ -12,7 +12,7 @@ function AdEx_Plot_Spikes(s::Array{Array{AdEx_Float}}, T::Tuple{AdEx_Float, AdEx
         push!(X, collect(T[1]:dt:(T[2] + T[2] / 4)) .* 0);
 
         for j = 1:size(s[i])[1]
-            X[i][floor(Int, s[i][j])] = i;
+            X[i][floor(Int, s[i][j]) + 1] = i;
         end
     end
 

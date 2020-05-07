@@ -1,6 +1,7 @@
 # Spiking neural network implementation<sup>[[1]](#references)</sup> with AdEx neurons<sup>[[2]](#references)</sup>
 
 ## To-do:
+* [ ] Clean up AdEx/neuron_parameters.jl
 * [ ] Test this by replicating the results of Pan et al.<sup>[[4]](#references)</sup>
 
 ## Current state

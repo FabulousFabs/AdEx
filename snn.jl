@@ -4,21 +4,13 @@ include("AdEx/model.jl");
 include("AdEx/model_plots.jl");
 
 ## draw up model
-network_draft = [
+A1_microcircuit = [
     AdEx_Model_Neurons(
         T=AdEx_Neuron_Excitatory,
-        N=2,
-        S=[AdEx_Model_Synapses(
-            T=AdEx_Synapse_AMPA,
-            C=Int[5, 6]
-        )]
-    ),
-    AdEx_Model_Neurons(
-        T=AdEx_Interneuron_SST,
         N=1,
         S=[AdEx_Model_Synapses(
-            T=AdEx_Synapse_GABA_A,
-            C=Int[1]
+            T=AdEx_Synapse_AMPA,
+            C=Int[2, 3]
         )]
     ),
     AdEx_Model_Neurons(
@@ -26,31 +18,30 @@ network_draft = [
         N=1,
         S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_GABA_A,
-            C=Int[2]
+            C=Int[1, 3]
         )]
     ),
     AdEx_Model_Neurons(
-        T=AdEx_Neuron_Excitatory,
-        N=2,
+        T=AdEx_Interneuron_SST,
+        N=1,
         S=[AdEx_Model_Synapses(
-            T=AdEx_Synapse_AMPA,
-            C=Int[3, 4]
+            T=AdEx_Synapse_GABA_A,
+            C=Int[1, 2]
         )]
     )
 ];
 
-## create model
-model = AdEx_Model_Create(network_draft);
+## create models
+model = AdEx_Model_Create(A1_microcircuit);
 
 ## setup simulation
 T = (0ms, 2000ms);
 I = [
-    (1, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
-    (2, AdEx_boxcar(T[1]:T[2], 100ms, 1400ms, 2mV)),
+    (1, AdEx_boxcar(T[1]:T[2], 200ms, 1600ms, 2200pA))
 ];
 
-## run simulation
-spikes = AdEx_Model_Simulate(model, T, I; dt=1ms, σ=0.1mV);
+## run a couple of simulations
+spikes = AdEx_Model_Simulate(model, T, I; dt=1ms, σ=350pA);
 
 ## plot spike trains
 display(AdEx_Plot_Spikes(spikes, T; dt=1ms));
