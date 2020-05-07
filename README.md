@@ -79,9 +79,9 @@
 			* <img src="https://i.imgur.com/Hqm3fm6.png" width="50%" height="50%" />
 
 ## Dependencies
-* Parameters
-* Distributions
-* Plots
+* Parameters (required)
+* Distributions (required)
+* Plots (required only if AdEx/model_plots.jl is included)
 
 ## References
 * [1] Gerstner, W., Kistler, W.M., Naud, R., & Paninski, L. (2014). Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition. New York: CUP.
