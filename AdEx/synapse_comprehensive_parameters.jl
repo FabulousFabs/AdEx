@@ -1,34 +1,24 @@
 # AdEx synapse parameters
 
-#= simplified synapses as per Alessio =#
-
 ## NMDA synapse
 @with_kw mutable struct AdEx_Synapse_NMDA <: AdEx_Synapse
     g_history::Array{AdEx_Float} = AdEx_Float[];
     I_history::Array{AdEx_Float} = AdEx_Float[];
     PreSyn::Int = -1
     PostSyn::Int = -1
-
+    g_c_NMDA::AdEx_Float = 1.5nS
+    τ_rise::AdEx_Float = 3ms
+    τ_decay::AdEx_Float = 40ms
     Mg2p::AdEx_Float = 1.2mM
-    α::AdEx_Float = 0.062mV^(-1);
+    α::AdEx_Float = (0.062mV)^-1
     β::AdEx_Float = 1 / 3.57mM
+    g::AdEx_Float = g_c_NMDA
+    I::AdEx_Float = 0mV
+    E_syn::AdEx_Float = 0mV
     F::AdEx_Float = 1
     τ_F1::AdEx_Float = 1500ms
     τ_F2::AdEx_Float = 100ms
     b_scale::AdEx_Float = 3
-
-    g_c_NMDA::AdEx_Float = 1.5nS
-    τ_rise::AdEx_Float = 3ms
-    τ_decay::AdEx_Float = 40ms
-
-
-
-
-    g::AdEx_Float = g_c_NMDA
-    I::AdEx_Float = 0mV
-    E_syn::AdEx_Float = 0mV
-
-
 end
 
 ## GABA synapses

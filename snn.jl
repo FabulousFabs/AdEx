@@ -5,12 +5,13 @@ include("AdEx/model_plots.jl");
 
 ## draw up model
 A1_microcircuit = [
+    # Circuit 1
     AdEx_Model_Neurons(
         T=AdEx_Neuron_Excitatory,
         N=1,
         S=[AdEx_Model_Synapses(
             T=AdEx_Synapse_AMPA,
-            C=Int[2, 3]
+            C=Int[2, 3, 4]
         )]
     ),
     AdEx_Model_Neurons(
@@ -28,6 +29,31 @@ A1_microcircuit = [
             T=AdEx_Synapse_GABA_A,
             C=Int[1, 2]
         )]
+    ),
+    # Circuit 2
+    AdEx_Model_Neurons(
+        T=AdEx_Neuron_Excitatory,
+        N=1,
+        S=[AdEx_Model_Synapses(
+            T=AdEx_Synapse_AMPA,
+            C=Int[1, 5, 6]
+        )]
+    ),
+    AdEx_Model_Neurons(
+        T=AdEx_Interneuron_PV,
+        N=1,
+        S=[AdEx_Model_Synapses(
+            T=AdEx_Synapse_GABA_B,
+            C=Int[4, 6]
+        )]
+    ),
+    AdEx_Model_Neurons(
+        T=AdEx_Interneuron_SST,
+        N=1,
+        S=[AdEx_Model_Synapses(
+            T=AdEx_Synapse_GABA_A,
+            C=Int[4, 5]
+        )]
     )
 ];
 
@@ -37,11 +63,13 @@ model = AdEx_Model_Create(A1_microcircuit);
 ## setup simulation
 T = (0ms, 2000ms);
 I = [
-    (1, AdEx_boxcar(T[1]:T[2], 200ms, 1600ms, 2200pA))
+    (1, AdEx_boxcar(T[1]:T[2], 200ms, 1600ms, 2200pA)),
+    (2, AdEx_boxcar(T[1]:T[2], 200ms, 1600ms, 2200pA))
 ];
 
 ## run a couple of simulations
 spikes = AdEx_Model_Simulate(model, T, I; dt=1ms, σ=350pA);
 
 ## plot spike trains
+display(AdEx_Model_Plot_Neurons(model));
 display(AdEx_Plot_Spikes(spikes, T; dt=1ms));

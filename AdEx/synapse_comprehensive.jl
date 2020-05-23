@@ -16,7 +16,6 @@ AdEx_Synapse_dFdt(s::AdEx_Synapse, n::AdEx_Neuron, t::AdEx_Float) = (1 - s.F) / 
 ## NMDA synapse
 AdEx_Synapse_dgdt(s::AdEx_Synapse_NMDA, t::AdEx_Float, t_f::AdEx_Float, V::AdEx_Float) = s.g_c_NMDA * (1 - exp(-((t - t_f) / s.τ_rise))) * exp(-((t - t_f) / s.τ_decay)) * (1 + s.β * exp(-s.α * V) * s.Mg2p)^(-1) * Θ(t - t_f);
 
-
 ## GABA synapses
 AdEx_Synapse_dgdt(s::AdEx_Synapse_GABA_A, t::AdEx_Float, t_f::AdEx_Float, V::AdEx_Float) = s.g_c_GABA_A * (1 - exp(-((t - t_f) / s.τ_rise))) * (s.a * exp(-((t - t_f) / s.τ_fast))) * Θ(t - t_f);
 AdEx_Synapse_dgdt(s::AdEx_Synapse_GABA_B, t::AdEx_Float, t_f::AdEx_Float, V::AdEx_Float) = s.g_c_GABA_B * (1 - exp(-((t - t_f) / s.τ_rise))) * (s.a * exp(-((t - t_f) / s.τ_fast)) + (1 - s.a) * exp(-((t - t_f) / s.τ_slow))) * Θ(t - t_f);
